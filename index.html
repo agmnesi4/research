@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AGNE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #252422;
+      --white: #FFFCF2;
+      --orange: #E95E28;
+      --gray: #7a7470;
+      --cloud: #3a3734;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 48px 28px 80px;
+      position: relative;
+    }
+
+    .hero-text {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(52px, 15vw, 80px);
+      line-height: 0.96;
+      letter-spacing: -0.01em;
+      color: var(--orange);
+      text-transform: uppercase;
+    }
+
+    .hero-text span {
+      display: block;
+    }
+
+    .hero-divider {
+      width: 40px;
+      height: 2px;
+      background: var(--orange);
+      margin: 36px 0 24px;
+    }
+
+    .hero-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--gray);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1.8;
+    }
+
+    .scroll-cue {
+      position: absolute;
+      bottom: 36px;
+      left: 28px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--gray);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    .scroll-cue::after {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--gray);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    /* ── SITE HEADER ── */
+    .site-header {
+      padding: 32px 28px 0;
+      border-top: 1px solid var(--cloud);
+    }
+
+    .site-name {
+      font-family: 'Anton', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.25em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      padding: 0 28px;
+    }
+
+    .section-block {
+      border-top: 1px solid var(--cloud);
+      padding: 28px 0;
+    }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--orange);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .section-number {
+      font-family: 'Anton', sans-serif;
+      font-size: 13px;
+      color: var(--orange);
+      letter-spacing: 0.1em;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(28px, 8vw, 40px);
+      font-weight: 700;
+      line-height: 1.05;
+      text-transform: uppercase;
+      color: var(--white);
+      letter-spacing: -0.01em;
+    }
+
+    .section-body {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      line-height: 1.8;
+      color: var(--gray);
+      margin-top: 16px;
+    }
+
+    /* ── BOOKS ── */
+    .books-list {
+      margin-top: 8px;
+    }
+
+    .book-item {
+      border-top: 1px solid var(--cloud);
+      cursor: pointer;
+    }
+
+    .book-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 20px 0;
+      gap: 12px;
+    }
+
+    .book-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--orange);
+      letter-spacing: 0.1em;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .book-title-wrap {
+      flex: 1;
+    }
+
+    .book-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1.1;
+      color: var(--white);
+      transition: color 0.2s;
+    }
+
+    .book-item:hover .book-title,
+    .book-item.open .book-title {
+      color: var(--orange);
+    }
+
+    .book-toggle {
+      font-family: 'Space Mono', monospace;
+      font-size: 16px;
+      color: var(--gray);
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: transform 0.3s;
+    }
+
+    .book-item.open .book-toggle {
+      transform: rotate(45deg);
+      color: var(--orange);
+    }
+
+    .book-detail {
+      display: none;
+      padding: 0 0 20px 28px;
+    }
+
+    .book-item.open .book-detail {
+      display: block;
+    }
+
+    .book-author {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--orange);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .book-desc {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      line-height: 1.8;
+      color: var(--gray);
+    }
+
+    /* ── DIY ── */
+    .resource-list {
+      margin-top: 8px;
+    }
+
+    .resource-item {
+      border-top: 1px solid var(--cloud);
+      padding: 18px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .resource-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--white);
+      transition: color 0.2s;
+    }
+
+    .resource-item:hover .resource-label {
+      color: var(--orange);
+    }
+
+    .resource-arrow {
+      font-size: 14px;
+      color: var(--orange);
+    }
+
+    /* ── WORKSHOPS ── */
+    .event-list {
+      margin-top: 8px;
+    }
+
+    .event-item {
+      border-top: 1px solid var(--cloud);
+      padding: 20px 0;
+    }
+
+    .event-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--orange);
+      letter-spacing: 0.15em;
+      margin-bottom: 6px;
+    }
+
+    .event-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+      line-height: 1.1;
+    }
+
+    .event-location {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--gray);
+      margin-top: 6px;
+    }
+
+    /* ── CONTACTS ── */
+    .contact-list {
+      margin-top: 8px;
+    }
+
+    .contact-item {
+      border-top: 1px solid var(--cloud);
+      padding: 18px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .contact-platform {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--gray);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .contact-handle {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--orange);
+      transition: opacity 0.2s;
+    }
+
+    .contact-item:hover .contact-handle {
+      opacity: 0.7;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 40px 28px 60px;
+      border-top: 1px solid var(--cloud);
+    }
+
+    .footer-name {
+      font-family: 'Anton', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--cloud);
+      text-transform: uppercase;
+    }
+
+    /* ── FADE IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-text">
+      <span>All this</span>
+      <span>love used</span>
+      <span>to be</span>
+      <span>anger</span>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-text">
+      <span>All this</span>
+      <span>anger used</span>
+      <span>to be</span>
+      <span>love</span>
+    </div>
+    <div class="hero-sub" style="margin-top:32px;">
+      Agne — Design Research<br />
+      Women &amp; Queer Bodies · Pleasure · Healing
+    </div>
+    <div class="scroll-cue">scroll</div>
+  </section>
+
+  <!-- SITE HEADER -->
+  <div class="site-header">
+    <div class="site-name">AGNE</div>
+  </div>
+
+  <div class="section">
+
+    <!-- 01 RESEARCH -->
+    <div class="section-block fade-in">
+      <div class="section-label">
+        <span class="section-number">01</span>
+        The Research
+      </div>
+      <div class="section-title">What does it mean for a female and/or queer body to experience desire in a patriarchal society?</div>
+      <div class="section-body">
+        [Your intro text goes here — 3 to 5 lines about the research, your approach, what you are exploring and why.]
+      </div>
+    </div>
+
+    <!-- 02 INFLUENCES -->
+    <div class="section-block fade-in">
+      <div class="section-label">
+        <span class="section-number">02</span>
+        Influences
+      </div>
+      <div class="books-list">
+
+        <div class="book-item" onclick="toggleBook(this)">
+          <div class="book-header">
+            <span class="book-num">01</span>
+            <div class="book-title-wrap">
+              <div class="book-title">Pleasure Activism</div>
+            </div>
+            <span class="book-toggle">+</span>
+          </div>
+          <div class="book-detail">
+            <div class="book-author">adrienne maree brown</div>
+            <div class="book-desc">The politics of feeling good. Brown argues that pleasure is a form of resistance — that joy, eroticism and desire are radical tools for liberation and collective healing.</div>
+          </div>
+        </div>
+
+        <div class="book-item" onclick="toggleBook(this)">
+          <div class="book-header">
+            <span class="book-num">02</span>
+            <div class="book-title-wrap">
+              <div class="book-title">Emergent Strategy</div>
+            </div>
+            <span class="book-toggle">+</span>
+          </div>
+          <div class="book-detail">
+            <div class="book-author">adrienne maree brown</div>
+            <div class="book-desc">Shaping change, shaping ourselves. A framework for building movements and communities that are adaptive, interdependent and alive — rooted in nature's own logic.</div>
+          </div>
+        </div>
+
+        <div class="book-item" onclick="toggleBook(this)">
+          <div class="book-header">
+            <span class="book-num">03</span>
+            <div class="book-title-wrap">
+              <div class="book-title">Erotic as Power</div>
+            </div>
+            <span class="book-toggle">+</span>
+          </div>
+          <div class="book-detail">
+            <div class="book-author">Audre Lorde</div>
+            <div class="book-desc">A foundational essay. Lorde reclaims the erotic as a deep source of knowledge, power and self-determination — not pornography, but the force of feeling fully alive.</div>
+          </div>
+        </div>
+
+        <div class="book-item" onclick="toggleBook(this)">
+          <div class="book-header">
+            <span class="book-num">04</span>
+            <div class="book-title-wrap">
+              <div class="book-title">Come as You Are</div>
+            </div>
+            <span class="book-toggle">+</span>
+          </div>
+          <div class="book-detail">
+            <div class="book-author">Emily Nagoski</div>
+            <div class="book-desc">The science of female sexuality — and why every body is normal. A radical reframing of desire, arousal and pleasure grounded in research and compassion.</div>
+          </div>
+        </div>
+
+        <div class="book-item" onclick="toggleBook(this)">
+          <div class="book-header">
+            <span class="book-num">05</span>
+            <div class="book-title-wrap">
+              <div class="book-title">That's Disgusting</div>
+            </div>
+            <span class="book-toggle">+</span>
+          </div>
+          <div class="book-detail">
+            <div class="book-author">Rachel Herz</div>
+            <div class="book-desc">An investigation into the emotion of disgust — how it shapes morality, sexuality, social exclusion and the politics of the body.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 03 DIY -->
+    <div class="section-block fade-in">
+      <div class="section-label">
+        <span class="section-number">03</span>
+        DIY
+      </div>
+      <div class="section-title">Resources &amp; Tools</div>
+      <div class="section-body" style="margin-bottom:16px;">
+        A growing collection of tutorials, readings and practical tools for embodied research and self-knowledge.
+      </div>
+      <div class="resource-list">
+        <a class="resource-item" href="#" target="_blank">
+          <span class="resource-label">Resource One</span>
+          <span class="resource-arrow">→</span>
+        </a>
+        <a class="resource-item" href="#" target="_blank">
+          <span class="resource-label">Resource Two</span>
+          <span class="resource-arrow">→</span>
+        </a>
+        <a class="resource-item" href="#" target="_blank">
+          <span class="resource-label">Resource Three</span>
+          <span class="resource-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 04 WORKSHOPS -->
+    <div class="section-block fade-in">
+      <div class="section-label">
+        <span class="section-number">04</span>
+        Workshops
+      </div>
+      <div class="section-title">Upcoming Events</div>
+      <div class="event-list">
+        <div class="event-item">
+          <div class="event-date">17 MARCH — 2026</div>
+          <div class="event-name">DESIGN DIALOGUES</div>
+          <div class="event-location">IAAC (Carrer de Pujades, 102) — Barcelona </div>
+        </div>
+    </div>
+
+    <!-- 05 CONTACTS -->
+    <div class="section-block fade-in">
+      <div class="section-label">
+        <span class="section-number">05</span>
+        Contact
+      </div>
+      <div class="contact-list">
+        <a class="contact-item" href="https://instagram.com/agmnesia" target="_blank">
+          <span class="contact-platform">Instagram</span>
+          <span class="contact-handle">@agmnesia</span>
+        </a>
+
+        <a class="contact-item" href="https://www.tiktok.com/@agmnesia" target="_blank">
+          <span class="contact-platform">TikTok</span>
+          <span class="contact-handle">@agmnesia</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-name">MDEF agnese raimondi — © 2026</div>
+  </footer>
+
+  <script>
+    function toggleBook(el) {
+      const isOpen = el.classList.contains('open');
+      document.querySelectorAll('.book-item.open').forEach(b => b.classList.remove('open'));
+      if (!isOpen) el.classList.add('open');
+    }
+
+    // Scroll fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
